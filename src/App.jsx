@@ -1,27 +1,85 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
-import About from "./components/About";       // ← changed from ./components/About
-import Branches from "./pages/Branches";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Members from "./pages/Members";
 import Attendance from "./pages/Attendance";
 import Reports from "./pages/Reports";
+import Branches from "./pages/Branches";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
+
   return (
+
     <BrowserRouter>
+
       <Routes>
+
+        {/* PUBLIC */}
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/branches" element={<Branches />} />
+
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/members" element={<Members />} />
-        <Route path="/attendance" element={<Attendance />} />
-        <Route path="/reports" element={<Reports />} />
+
+
+
+        {/* PROTECTED */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+        <Route
+          path="/members"
+          element={
+            <ProtectedRoute>
+              <Members />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+        <Route
+          path="/attendance"
+          element={
+            <ProtectedRoute>
+              <Attendance />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute>
+              <Reports />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+        <Route
+          path="/branches"
+          element={
+            <ProtectedRoute>
+              <Branches />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
+
     </BrowserRouter>
   );
 };
