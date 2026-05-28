@@ -39,8 +39,8 @@ const Reports = () => {
     setLoading(true);
     try {
       const [membersRes, attendanceRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/members", config),
-        axios.get("http://localhost:5000/api/attendance", config),
+        axios.get("http://rccg-pro4.onrender.com/api/members", config),
+        axios.get("http://rccg-pro4.onrender.com/api/attendance", config),
       ]);
 
       setMembers(membersRes.data);
@@ -49,7 +49,7 @@ const Reports = () => {
       // Only admin can fetch branches
       if (branchInfo?.isAdmin) {
         const branchesRes = await axios.get(
-          "http://localhost:5000/api/auth/branches",
+          "http://rccg-pro4.onrender.com/api/auth/branches",
           config
         );
         setBranches(branchesRes.data);

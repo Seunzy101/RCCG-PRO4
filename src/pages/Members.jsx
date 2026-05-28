@@ -48,7 +48,7 @@ const Members = () => {
     try {
 
       const { data } = await axios.get(
-        "http://localhost:5000/api/members",
+        "https://rccg-pro4.onrender.com/api/members",
         config
       );
 
@@ -115,7 +115,7 @@ const Members = () => {
     try {
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/members",
+        "https://rccg-pro4.onrender.com/api/members",
         formData,
         config
       );
@@ -161,7 +161,7 @@ const Members = () => {
     try {
 
       await axios.delete(
-        `http://localhost:5000/api/members/${id}`,
+        `https://rccg-pro4.onrender.com/api/members/${id}`,
         config
       );
 

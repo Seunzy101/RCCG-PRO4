@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo.png";
 
+const API_URL = "https://rccg-pro4.onrender.com";
+
 const Login = () => {
 
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const Login = () => {
 
 
   // =========================
-  // REDIRECT IF ALREADY LOGGED IN
+  // REDIRECT IF LOGGED IN
   // =========================
   useEffect(() => {
 
@@ -39,8 +41,12 @@ const Login = () => {
 
       if (parsed?.token) {
 
-        // IMPORTANT
-        navigate("/dashboard");
+        // ROLE BASED REDIRECT
+        if (parsed.role === "admin") {
+          navigate("/branches");
+        } else {
+          navigate("/dashboard");
+        }
       }
 
     } catch (error) {
@@ -79,7 +85,7 @@ const Login = () => {
     try {
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API_URL}/api/auth/login`,
         formData,
         {
           headers: {
@@ -131,8 +137,17 @@ const Login = () => {
 
 
 
-      // IMPORTANT
-      navigate("/dashboard");
+      // =========================
+      // ROLE BASED REDIRECT
+      // =========================
+      if (data.role === "admin") {
+
+        navigate("/branches");
+
+      } else {
+
+        navigate("/dashboard");
+      }
 
     } catch (error) {
 
