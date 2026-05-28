@@ -54,7 +54,7 @@ const Branches = () => {
   const fetchBranches = async () => {
     try {
       const { data } = await axios.get(
-        "http://rccg-pro4.onrender.com/api/branches",
+        "https://rccg-pro4.onrender.com/api/branches",
         config
       );
 
@@ -113,7 +113,7 @@ const Branches = () => {
     try {
 
       const { data } = await axios.post(
-        "http://rccg-pro4.onrender.com/api/branches",
+        "https://rccg-pro4.onrender.com/api/branches",
         formData,
         config
       );
@@ -161,7 +161,7 @@ const Branches = () => {
     try {
 
       await axios.delete(
-        `http://rccg-pro4.onrender.com/api/branches/${id}`,
+        `https://rccg-pro4.onrender.com/api/branches/${id}`,
         config
       );
 

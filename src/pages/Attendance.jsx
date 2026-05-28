@@ -32,7 +32,7 @@ const Attendance = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        "http://rccg-pro4.onrender.com/api/members",
+        "https://rccg-pro4.onrender.com/api/members",
         config
       );
 
@@ -95,7 +95,7 @@ const Attendance = () => {
       }));
 
       await axios.post(
-        "http://rccg-pro4.onrender.com/api/attendance",
+        "https://rccg-pro4.onrender.com/api/attendance",
         { date: todayISO, records },
         config
       );
