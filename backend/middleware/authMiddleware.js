@@ -1,26 +1,19 @@
 const jwt = require("jsonwebtoken");
-
 const Branch = require("../models/Branch");
-
-
 
 // ========================
 // PROTECT ROUTE
 // ========================
 const protect = async (req, res, next) => {
+  try {
+    let token;
 
-  let token;
-
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-
-    try {
-
+    // CHECK AUTH HEADER
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
       token = req.headers.authorization.split(" ")[1];
-
-
 
       // VERIFY TOKEN
       const decoded = jwt.verify(
@@ -28,35 +21,37 @@ const protect = async (req, res, next) => {
         process.env.JWT_SECRET
       );
 
+      console.log("Decoded Token:", decoded);
 
-
-      // GET USER
-      req.branch = await Branch
-        .findById(decoded.id)
+      // FIND BRANCH
+      const branch = await Branch.findById(decoded.id)
         .select("-password");
 
+      console.log("Branch Found:", branch);
 
+      if (!branch) {
+        return res.status(401).json({
+          message: "Branch not found",
+        });
+      }
+
+      // ATTACH USER TO REQUEST
+      req.branch = branch;
 
       next();
-
-    } catch (error) {
-
-      console.log(error);
-
-      res.status(401).json({
-        message: "Not authorized",
+    } else {
+      return res.status(401).json({
+        message: "No token provided",
       });
     }
+  } catch (error) {
+    console.log("AUTH ERROR:", error);
 
-  } else {
-
-    res.status(401).json({
-      message: "No token",
+    return res.status(401).json({
+      message: "Not authorized",
     });
   }
 };
-
-
 
 module.exports = {
   protect,

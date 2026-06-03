@@ -1,5 +1,4 @@
 const express = require("express");
-
 const router = express.Router();
 
 const {
@@ -7,13 +6,10 @@ const {
   getAttendance,
 } = require("../controllers/attendanceController");
 
+const { protect } = require("../middleware/authMiddleware");
 
-// GET ATTENDANCE
-router.get("/", getAttendance);
+router.get("/", protect, getAttendance);
 
-
-// MARK ATTENDANCE
-router.post("/", markAttendance);
-
+router.post("/", protect, markAttendance);
 
 module.exports = router;

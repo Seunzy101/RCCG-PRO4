@@ -47,7 +47,7 @@ const Reports = () => {
       setAttendance(attendanceRes.data);
 
       // Only admin can fetch branches
-      if (branchInfo?.isAdmin) {
+      if (branchInfo?.role === "admin") {
         const branchesRes = await axios.get(
           "https://rccg-pro4.onrender.com/api/auth/branches",
           config
@@ -90,7 +90,7 @@ const Reports = () => {
           <Link to="/dashboard" className="bg-yellow-500 text-black px-5 py-2 rounded-lg hover:bg-yellow-400 transition">Dashboard</Link>
           <Link to="/members" className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-500 transition">Members</Link>
           <Link to="/attendance" className="bg-purple-600 text-white px-5 py-2 rounded-lg hover:bg-purple-500 transition">Attendance</Link>
-          {branchInfo?.isAdmin && (
+          {branchInfo?.role === "admin" && (
             <Link to="/branches" className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-500 transition">Branches</Link>
           )}
         </div>
@@ -159,7 +159,7 @@ const Reports = () => {
                 <div>
                   <p className="text-gray-500">Total Branches</p>
                   <h2 className="text-4xl font-bold mt-2 text-purple-600">
-                    {branchInfo?.isAdmin ? totalBranches : "—"}
+                    {branchInfo?.role === "admin" ? totalBranches : "—"}
                   </h2>
                 </div>
                 <FaChurch className="text-5xl text-purple-600" />
