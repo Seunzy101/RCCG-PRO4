@@ -116,9 +116,45 @@ const deleteMember = async (req, res) => {
     });
   }
 };
+// ========================
+// GET SINGLE MEMBER
+// ========================
+const getMemberById = async (req, res) => {
+  try {
 
+    const member = await Member.findById(req.params.id)
+      .populate("branch", "branchName");
+
+    if (!member) {
+      return res.status(404).json({
+        message: "Member not found",
+      });
+    }
+
+    // Branch users can only view their own members
+    if (
+      req.branch.role !== "admin" &&
+      member.branch._id.toString() !== req.branch._id.toString()
+    ) {
+      return res.status(403).json({
+        message: "Access denied",
+      });
+    }
+
+    res.json(member);
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
 module.exports = {
   getMembers,
+  getMemberById,
   createMember,
   deleteMember,
 };

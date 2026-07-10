@@ -4,6 +4,7 @@ const router = express.Router();
 
 const {
   getMembers,
+  getMemberById,
   createMember,
   deleteMember,
 } = require("../controllers/memberController");
@@ -22,7 +23,7 @@ router
   .get(protect, getMembers)
   .post(protect, createMember);
 
-
+router.get("/:id", protect, getMemberById);
 
 // ========================
 // DELETE MEMBER

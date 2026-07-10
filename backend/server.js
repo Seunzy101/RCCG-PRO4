@@ -1,3 +1,4 @@
+const dashboardRoutes = require("./routes/dashboardRoutes");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -39,6 +40,8 @@ app.use("/api/members", memberRoutes);
 app.use("/api/attendance", attendanceRoutes);
 
 app.use("/api/branches", branchRoutes);
+
+app.use("/api/dashboard", dashboardRoutes);
 
 
 

@@ -185,19 +185,30 @@ const Reports = () => {
                   <thead className="bg-blue-950 text-white">
                     <tr>
                       <th className="text-left py-4 px-6">Date</th>
+                      <th className="text-left py-4 px-6">Branch</th>
                       <th className="text-left py-4 px-6">Present</th>
                       <th className="text-left py-4 px-6">Absent</th>
                     </tr>
                   </thead>
                   <tbody>
                     {attendance.map((record) => (
-                      <tr key={record._id} className="border-b hover:bg-gray-50 transition">
+                      <tr
+                        key={record._id}
+                        onClick={() => navigate(`/attendance/${record._id}`)}
+                        className="border-b hover:bg-blue-50 cursor-pointer transition"
+                      >
                         <td className="py-4 px-6">
                           {new Date(record.date).toLocaleDateString()}
                         </td>
+
+                        <td className="py-4 px-6">
+                          {record.branch?.branchName || "Unknown Branch"}
+                        </td>
+
                         <td className="py-4 px-6 text-green-600 font-semibold">
                           {record.totalPresent}
                         </td>
+
                         <td className="py-4 px-6 text-red-500 font-semibold">
                           {record.totalAbsent}
                         </td>

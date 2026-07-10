@@ -6,23 +6,19 @@ import Members from "./pages/Members";
 import Attendance from "./pages/Attendance";
 import Reports from "./pages/Reports";
 import Branches from "./pages/Branches";
+import AttendanceDetails from "./pages/AttendanceDetails";
+import MemberProfile from "./pages/MemberProfile";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
-
   return (
-
     <BrowserRouter>
-
       <Routes>
 
         {/* PUBLIC */}
         <Route path="/" element={<Home />} />
-
         <Route path="/login" element={<Login />} />
-
-
 
         {/* PROTECTED */}
         <Route
@@ -34,8 +30,6 @@ const App = () => {
           }
         />
 
-
-
         <Route
           path="/members"
           element={
@@ -45,7 +39,14 @@ const App = () => {
           }
         />
 
-
+        <Route
+          path="/members/:id"
+          element={
+            <ProtectedRoute>
+              <MemberProfile />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/attendance"
@@ -56,8 +57,6 @@ const App = () => {
           }
         />
 
-
-
         <Route
           path="/reports"
           element={
@@ -67,7 +66,14 @@ const App = () => {
           }
         />
 
-
+        <Route
+          path="/attendance/:id"
+          element={
+            <ProtectedRoute>
+              <AttendanceDetails />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/branches"
@@ -79,7 +85,6 @@ const App = () => {
         />
 
       </Routes>
-
     </BrowserRouter>
   );
 };

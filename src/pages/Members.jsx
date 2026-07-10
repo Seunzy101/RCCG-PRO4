@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaTrash } from "react-icons/fa";
 import axios from "axios";
 
 const Members = () => {
@@ -381,11 +382,10 @@ const Members = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`py-3 rounded-xl font-bold md:col-span-2 ${
-              loading
+            className={`py-3 rounded-xl font-bold md:col-span-2 ${loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-yellow-500 hover:bg-yellow-400"
-            }`}
+              }`}
           >
 
             {loading ? "Adding..." : "Add Member"}
@@ -497,12 +497,25 @@ const Members = () => {
 
                   <td className="py-4">
 
-                    <button
-                      onClick={() => deleteMember(member._id)}
-                      className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg"
-                    >
-                      Delete
-                    </button>
+                    <div className="flex gap-3">
+
+                      <Link
+                        to={`/members/${member._id}`}
+                        className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                      >
+                        <FaEye />
+                        View
+                      </Link>
+
+                      <button
+                        onClick={() => deleteMember(member._id)}
+                        className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                      >
+                        <FaTrash />
+                        Delete
+                      </button>
+
+                    </div>
 
                   </td>
 

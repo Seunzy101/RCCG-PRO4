@@ -19,7 +19,7 @@ const markAttendance = async (req, res) => {
 
     const totalAbsent = records.length - totalPresent;
 
-    // prevent duplicate attendance for same branch same date
+    // Prevent duplicate attendance for same branch and date
     const existingAttendance = await Attendance.findOne({
       branch: req.branch._id,
       date,
@@ -50,7 +50,7 @@ const markAttendance = async (req, res) => {
 };
 
 // ===============================
-// GET ATTENDANCE
+// GET ALL ATTENDANCE
 // ===============================
 const getAttendance = async (req, res) => {
   try {
@@ -59,7 +59,11 @@ const getAttendance = async (req, res) => {
     // ADMIN SEES EVERYTHING
     if (req.branch.role === "admin") {
       attendance = await Attendance.find()
-        .populate("branch", "branchName")
+        .populate("branch", "branchName pastor location")
+        .populate(
+          "records.member",
+          "firstName lastName gender phone email"
+        )
         .sort({ date: -1 });
     }
 
@@ -68,8 +72,50 @@ const getAttendance = async (req, res) => {
       attendance = await Attendance.find({
         branch: req.branch._id,
       })
-        .populate("branch", "branchName")
+        .populate("branch", "branchName pastor location")
+        .populate(
+          "records.member",
+          "firstName lastName gender phone email"
+        )
         .sort({ date: -1 });
+    }
+
+    res.json(attendance);
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+
+// ===============================
+// GET SINGLE ATTENDANCE
+// ===============================
+const getAttendanceById = async (req, res) => {
+  try {
+    const attendance = await Attendance.findById(req.params.id)
+      .populate("branch", "branchName pastor location")
+      .populate(
+        "records.member",
+        "firstName lastName gender phone email"
+      );
+
+    if (!attendance) {
+      return res.status(404).json({
+        message: "Attendance record not found",
+      });
+    }
+
+    // Branch users can only view their own attendance
+    if (
+      req.branch.role !== "admin" &&
+      attendance.branch._id.toString() !== req.branch._id.toString()
+    ) {
+      return res.status(403).json({
+        message: "Access denied",
+      });
     }
 
     res.json(attendance);
@@ -85,4 +131,5 @@ const getAttendance = async (req, res) => {
 module.exports = {
   markAttendance,
   getAttendance,
+  getAttendanceById,
 };
